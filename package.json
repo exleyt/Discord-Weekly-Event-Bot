@@ -1,7 +1,7 @@
 {
   "name": "suwako",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bot to paste a useful message for organizing weekly events without the tedium of copy/pasting epoch times.",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
