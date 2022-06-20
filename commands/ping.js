@@ -34,6 +34,16 @@ module.exports = {
 				.setDescription('what time of the day to start at \'hh:mm\' local')
 				.setRequired(true)),
 	async execute(interaction) {
-		await interaction.reply('Pong!');
+		const name = interaction.options.getString('name');
+		// const mentionable = interaction.options.getMentionable('mentionable');
+		// const days = interaction.options.getString('days');
+		const startDay = interaction.options.getString('start_day');
+		// const size = interaction.options.getInteger('size');
+		// const length = interaction.options.getInteger('length');
+		const startTime = interaction.options.getString('start_time');
+		const startDate = new Date(`${startDay}T${startTime}`);
+		const startEpoch = startDate.getTime() / 1000;
+		await interaction.reply(`This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
+		await interaction.followUp('Pingu!');
 	},
 };
