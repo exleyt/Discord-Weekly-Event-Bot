@@ -27,6 +27,18 @@ for (const file of commandFiles) {
 
 const rest = new REST({ version: '9' }).setToken(token);
 
+// https://stackoverflow.com/questions/69171432/how-to-delete-slash-commands-in-discord-js-v13
+// Deletes all existing application commands
+rest.get(Routes.applicationCommands(clientId))
+	.then(data => {
+		const promises = [];
+		for (const command of data) {
+			const deleteUrl = `${Routes.applicationGuildCommands(clientId)}/${command.id}`;
+			promises.push(rest.delete(deleteUrl));
+		}
+		return Promise.all(promises);
+	});
+
 rest.put(Routes.applicationCommands(clientId), { body: commands })
 	.then(() => console.log('Successfully registered application commands.'))
 	.catch(console.error);
