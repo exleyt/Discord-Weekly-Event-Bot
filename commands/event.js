@@ -1,5 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const daysOfWeek = 'smtwhfa';
+const indicators = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'yellow_circle', 'x'];
+const indicatorUnicodes = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '0️⃣', '🟡', '❌'];
+const secondsInDay = 86400;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -42,13 +45,18 @@ module.exports = {
 		const startDate = new Date(`${startDay}T${startTime}`);
 		// Converts a Date object to a local Epoch time in seconds
 		const startEpoch = startDate.getTime() / 1000;
+		const startDayOfWeek = startDate.getDay();
 		const days = interaction.options.getString('days');
-		// Converts days of week to an array of values from 0-6
+		// Converts days of week to an array of values ranging daysOfWeek.length from startDayOfWeek
 		const dayValues = Array.from(days)
 			.filter((element, index, array) => array.indexOf(element) === index)
-			.map(element => daysOfWeek.indexOf(element));
+			// eslint-disable-next-line
+			.map(element => ((index = daysOfWeek.indexOf(element)) < startDayOfWeek) ? index + daysOfWeek.length : index)
+			.sort((a, b) => a - b);
 		const size = interaction.options.getInteger('size');
 		const length = interaction.options.getInteger('length');
+		// Converts minute timeslots to seconds
+		const deltaTime = length * 60;
 
 		// Validates arguments
 		try {
@@ -64,7 +72,31 @@ module.exports = {
 			return;
 		}
 
-		await interaction.reply(`${mentionable} This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
-		await interaction.followUp('Pingu!');
+		// Deletes reply to send channel message instead
+		interaction.deferReply();
+		interaction.deleteReply();
+
+		for (const dayValue of dayValues) {
+			// Epoch time of current day in loop
+			const epoch = (dayValue - startDayOfWeek) * secondsInDay + startEpoch;
+
+			let message = `${mentionable} This is the signup sheet for ${name} <t:${epoch}:D> which starts <t:${epoch}:R>. Please react accordingly.\n`;
+			// Builds message contents
+			for (let slot = 0; slot < size; slot++) {
+				// Time slot bounds for this loop
+				const firstTime = epoch + deltaTime * slot;
+				const secondTime = firstTime + deltaTime;
+				message += `\n:${indicators[slot]}: = 0<t:${firstTime}:t> - <t:${secondTime}:t>`;
+			}
+			message += `\n:${indicators[indicators.length - 2]}: = unsure yet` +
+				`\n:${indicators[indicators.length - 1]}: = no time today`;
+			const post = await interaction.channel.send(message);
+			// Reacts to message contents with all used indicators
+			for (let slot = 0; slot < size; slot++) {
+				await post.react(`${indicatorUnicodes[slot]}`);
+			}
+			await post.react(`${indicatorUnicodes[indicatorUnicodes.length - 2]}`);
+			await post.react(`${indicatorUnicodes[indicatorUnicodes.length - 1]}`);
+		}
 	},
 };
