@@ -3,8 +3,8 @@ const daysOfWeek = 'smtwhfa';
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!')
+		.setName('event')
+		.setDescription('helps schedule a weekly event')
 		.addMentionableOption(option =>
 			option.setName('mentionable')
 				.setDescription('mention something')
