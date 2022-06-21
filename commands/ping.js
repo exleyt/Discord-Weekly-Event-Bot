@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-// new Date(2010, 6, 26).getTime() / 1000
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
@@ -40,10 +39,10 @@ module.exports = {
 		const startTime = interaction.options.getString('start_time');
 		const startDate = new Date(`${startDay}T${startTime}`);
 		const startEpoch = startDate.getTime() / 1000;
-		await interaction.reply(`This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
 		const days = interaction.options.getString('days');
 		const size = interaction.options.getInteger('size');
 		const length = interaction.options.getInteger('length');
+		await interaction.reply(`${mentionable} This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
 		await interaction.followUp('Pingu!');
 	},
 };
