@@ -48,3 +48,5 @@ length - the number of minutes for each time slot
 For example: "/event mentionable:@Europan name:Bingus start_day:2022-06-21 start_time:04:20 days:ast size:3 length:20" will start a poll for the Sunday, tHursday, and sAturday closest on/after the start day. Each poll will have 3 options for the 20 mintue timeslot starting at 4:20 and then the next two slots afterward. The poll will be for the event "Bingus" and each day will ping the mentioned group.
 ## Example Output
 ![An example image of the bots output](./example_output.png)
+## Author
+Trevyn Exley
