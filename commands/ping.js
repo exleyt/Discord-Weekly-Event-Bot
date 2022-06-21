@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const daysOfWeek = 'smtwhfa';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -42,6 +43,10 @@ module.exports = {
 		// Converts a Date object to a local Epoch time in seconds
 		const startEpoch = startDate.getTime() / 1000;
 		const days = interaction.options.getString('days');
+		// Converts days of week to an array of values from 0-6
+		const dayValues = Array.from(days)
+			.filter((element, index, array) => array.indexOf(element) === index)
+			.map(element => daysOfWeek.indexOf(element));
 		const size = interaction.options.getInteger('size');
 		const length = interaction.options.getInteger('length');
 		await interaction.reply(`${mentionable} This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
