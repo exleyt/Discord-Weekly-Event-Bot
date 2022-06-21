@@ -22,7 +22,7 @@ module.exports = {
 				.setRequired(true))
 		.addStringOption(option =>
 			option.setName('days')
-				.setDescription(`which days of the week to repeat for \'${daysOfWeek}\'`)
+				.setDescription(`which days of the week to repeat for '${daysOfWeek}'`)
 				.setRequired(true))
 		.addIntegerOption(option =>
 			option.setName('size')
@@ -37,7 +37,9 @@ module.exports = {
 		const name = interaction.options.getString('name');
 		const startDay = interaction.options.getString('start_day');
 		const startTime = interaction.options.getString('start_time');
+		// Converts a start day and time to a Date object
 		const startDate = new Date(`${startDay}T${startTime}`);
+		// Converts a Date object to a local Epoch time in seconds
 		const startEpoch = startDate.getTime() / 1000;
 		const days = interaction.options.getString('days');
 		const size = interaction.options.getInteger('size');
