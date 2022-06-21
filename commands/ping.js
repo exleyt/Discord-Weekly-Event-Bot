@@ -49,6 +49,21 @@ module.exports = {
 			.map(element => daysOfWeek.indexOf(element));
 		const size = interaction.options.getInteger('size');
 		const length = interaction.options.getInteger('length');
+
+		// Validates arguments
+		try {
+			if (!mentionable) { throw 'Invalid mentionable! Use a defined tag only.'; }
+			else if (!name) { throw 'Invalid name! Use a nonempty string only.'; }
+			else if (dayValues.some(element => element == -1)) { throw 'Invalid days! Use \'smtwhfa\' only.'; }
+			else if (!startEpoch) { throw 'Invalid date! Use \'yyyy-mm-ddThh:mm\' only.'; }
+			else if (size < 1 || size > indicators.length) { throw 'Invalid size! Use 1-10 only.'; }
+			else if (length < 0 || length > 10080) { throw 'Invalid length! Use 1-10080 only.'; }
+		}
+		catch (error) {
+			await interaction.reply({ content: error, ephemeral: true });
+			return;
+		}
+
 		await interaction.reply(`${mentionable} This is the signup sheet for ${name} <t:${startEpoch}:D> which starts <t:${startEpoch}:R>. Please react accordingly.`);
 		await interaction.followUp('Pingu!');
 	},
