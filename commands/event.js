@@ -65,7 +65,7 @@ module.exports = {
 			else if (dayValues.some(element => element == -1)) { throw 'Invalid days! Use \'smtwhfa\' only.'; }
 			else if (!startEpoch) { throw 'Invalid date! Use \'yyyy-mm-ddThh:mm\' only.'; }
 			else if (size < 1 || size > indicators.length) { throw 'Invalid size! Use 1-10 only.'; }
-			else if (length < 0 || length > 10080) { throw 'Invalid length! Use 1-10080 only.'; }
+			else if (length < 1 || length > 10080) { throw 'Invalid length! Use 1-10080 only.'; }
 		}
 		catch (error) {
 			await interaction.reply({ content: error, ephemeral: true });
