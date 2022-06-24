@@ -86,7 +86,7 @@ module.exports = {
 				// Time slot bounds for this loop
 				const firstTime = epoch + deltaTime * slot;
 				const secondTime = firstTime + deltaTime;
-				message += `\n:${indicators[slot]}: = 0<t:${firstTime}:t> - <t:${secondTime}:t>`;
+				message += `\n:${indicators[slot]}: = <t:${firstTime}:t> - <t:${secondTime}:t>`;
 			}
 			message += `\n:${indicators[indicators.length - 2]}: = unsure yet` +
 				`\n:${indicators[indicators.length - 1]}: = no time today`;
