@@ -16,7 +16,7 @@ Now go th [Discord dev portal](https://discord.com/developers/applications) and 
 ```
 Finally, give an adminastrator on the server you want to add it the following link with "123456789012345678" replaced by your bot's clientId. 
 ```
-https://discord.com/api/oauth2/authorize?""&permissions=2147682368&scope=bot%20applications.commands
+https://discord.com/api/oauth2/authorize?client_id=123456789012345678&permissions=2147682368&scope=bot%20applications.commands
 ```
 The listed permissions will give a bot its own role with all the necessary permissions already added. The bot can then be regulated by adding another role with no permissions and only giving the role a single view channel permission in channels it is allowed in.
 ## Running the bot
